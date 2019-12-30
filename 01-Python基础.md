@@ -1,5 +1,6 @@
 #Python 基础
 
+## 学习心得
 学的有点久了，忘了基础阶段是怎么过来的。只是记得一开始看到Python觉得挺简单，因为有C/C++基础，后来一直处于原地踏步状态。
 
 是的，有C/C++基础是优势，可以很快上手Python，但是这一优势也会反过来束缚你，因为写不出Pythonic的代码，总是停留在入门阶段，就像Tensorflow2.0之前的设计一样，注定成为历史包袱。
@@ -7,7 +8,7 @@
 基础部分的语法相对简单，官网的教程太过简单，不具备参考价值，网上很容易就能找到各种教程，这里推荐[Python新手100天学习计划 - Python语言基础](https://github.com/jackfrued/Python-100-Days/tree/master/Day01-15)，尤其是[字符串和常用数据结构](https://github.com/jackfrued/Python-100-Days/blob/master/Day01-15/07.%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.md)中的**列表**与**字典**需要灵活掌握
 
 
-
+## 简明教程
 以下为搬运自[here](https://github.com/luogu-dev/cyaron/wiki/Python-30%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97)的简明教程，包含了部分常用语法。
 
 ```python
@@ -572,6 +573,8 @@ for i in double_numbers(range_):
         break
 ```
 
+
+## 小试牛刀
 
 若想检测一下掌握的如何，可以试试补全以下操作（每个操作需在一行内完成）
 
