@@ -81,7 +81,7 @@ tensor([[[[ 1.,  0., -3.],
         self.name = args[0] if args else "unknown"
     def __call__(self, *args, **kwargs):
         """make an instance of the class "LayerBase" like a function"""
-        print("called: __call__", "args:", args, "kwargs", kwargs)
+        print("called: __call__", self.name, "args:", args, "kwargs", kwargs)
         return self.forward(*args, **kwargs)
     def forward(self, *args, **kwargs):
         print("called: forward", self.name, "args:", args, "kwargs", kwargs)
@@ -89,11 +89,11 @@ tensor([[[[ 1.,  0., -3.],
 >>> n = LayerBase(1, a=2)
 called: __init__ args: (1,) kwargs {'a': 2}
 >>> n(c=(3,1), d='linear')
-called: __call__ args: () kwargs {'c': (3, 1), 'd': 'linear'}
+called: __call__ 1 args: () kwargs {'c': (3, 1), 'd': 'linear'}
 called: forward 1 args: () kwargs {'c': (3, 1), 'd': 'linear'}
 "(){'c': (3, 1), 'd': 'linear'}"
 >>> n(["as", 12], 12, c='linear')
-called: __call__ args: (['as', 12], 12) kwargs {'c': 'linear'}
+called: __call__ 1 args: (['as', 12], 12) kwargs {'c': 'linear'}
 called: forward 1 args: (['as', 12], 12) kwargs {'c': 'linear'}
 "(['as', 12], 12){'c': 'linear'}"
 
@@ -107,19 +107,19 @@ called: forward 1 args: (['as', 12], 12) kwargs {'c': 'linear'}
     def forward(self, input):
         print("called: forward", self.name, "input:", input)
         x = self.layer1(input)
-        x = self.layer1(x)
+        x = self.layer2(x)
         return x
 >>> m = Layers(1, 's')
 called: __init__ args: (1, 's') kwargs {}
 called: __init__ args: ('name1',) kwargs {}
 called: __init__ args: ('name2',) kwargs {}
 >>> m('qwerty')
-called: __call__ args: ('qwerty',) kwargs {}
+called: __call__ 1 args: ('qwerty',) kwargs {}
 called: forward 1 input: qwerty
-called: __call__ args: ('qwerty',) kwargs {}
+called: __call__ name1 args: ('qwerty',) kwargs {}
 called: forward name1 args: ('qwerty',) kwargs {}
-called: __call__ args: ("('qwerty',){}",) kwargs {}
-called: forward name1 args: ("('qwerty',){}",) kwargs {}
+called: __call__ name2 args: ("('qwerty',){}",) kwargs {}
+called: forward name2 args: ("('qwerty',){}",) kwargs {}
 '("(\'qwerty\',){}",){}'
 ```
 
