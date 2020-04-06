@@ -74,35 +74,38 @@ tensor([[[[ 1.,  0., -3.],
 ```
 
 ``` python
->>> class LayerDemo:
+>>> class LayerBase:
     def __init__(self, *args, **kwargs):
-        """make the class name "LayerDemo" like a function"""
+        """make the class name "LayerBase" like a function"""
         print("called: __init__", "args:", args, "kwargs", kwargs)
+        self.name = args[0] if args else "unknown"
     def __call__(self, *args, **kwargs):
-        """make an instance of the class "LayerDemo" like a function"""
+        """make an instance of the class "LayerBase" like a function"""
         print("called: __call__", "args:", args, "kwargs", kwargs)
         return self.forward(*args, **kwargs)
     def forward(self, *args, **kwargs):
-        print("called: forward", "args:", args, "kwargs", kwargs)
+        print("called: forward", self.name, "args:", args, "kwargs", kwargs)
         return str(args) + str(kwargs)
->>> n = LayerDemo(a=1,b=2)
-called: __init__ args: () kwargs {'a': 1, 'b': 2}
+>>> n = LayerBase(1, a=2)
+called: __init__ args: (1,) kwargs {'a': 2}
 >>> n(c=(3,1), d='linear')
 called: __call__ args: () kwargs {'c': (3, 1), 'd': 'linear'}
-called: forward args: () kwargs {'c': (3, 1), 'd': 'linear'}
+called: forward 1 args: () kwargs {'c': (3, 1), 'd': 'linear'}
+"(){'c': (3, 1), 'd': 'linear'}"
 >>> n(["as", 12], 12, c='linear')
 called: __call__ args: (['as', 12], 12) kwargs {'c': 'linear'}
-called: forward args: (['as', 12], 12) kwargs {'c': 'linear'}
+called: forward 1 args: (['as', 12], 12) kwargs {'c': 'linear'}
+"(['as', 12], 12){'c': 'linear'}"
 
 # so now we can derive
->>> class Layers(LayerDemo):
+>>> class Layers(LayerBase):
     def __init__(self, *args, **kwargs):
-        """make the class name "LayerDemo" like a function"""
+        """make the class name "LayerBase" like a function"""
         super().__init__(*args, **kwargs)
-        self.layer1 = LayerDemo('name1')
-        self.layer2 = LayerDemo('name2')
+        self.layer1 = LayerBase('name1')
+        self.layer2 = LayerBase('name2')
     def forward(self, input):
-        print("called: forward", "input:", input)
+        print("called: forward", self.name, "input:", input)
         x = self.layer1(input)
         x = self.layer1(x)
         return x
@@ -112,10 +115,12 @@ called: __init__ args: ('name1',) kwargs {}
 called: __init__ args: ('name2',) kwargs {}
 >>> m('qwerty')
 called: __call__ args: ('qwerty',) kwargs {}
-called: forward input: qwerty
+called: forward 1 input: qwerty
 called: __call__ args: ('qwerty',) kwargs {}
-called: forward args: ('qwerty',) kwargs {}
+called: forward name1 args: ('qwerty',) kwargs {}
 called: __call__ args: ("('qwerty',){}",) kwargs {}
-called: forward args: ("('qwerty',){}",) kwargs {}
+called: forward name1 args: ("('qwerty',){}",) kwargs {}
 '("(\'qwerty\',){}",){}'
 ```
+
+With the above two static parts, and aotomatic derivative(gradient, not easy for an example), wo can get a normal nn module in PyTorch.
